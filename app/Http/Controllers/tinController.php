@@ -32,7 +32,7 @@ class tinController extends Controller
     		'mota'=>'required',
     		'tinhot'=>'required',
     		'noidung'=>'required',
-            'hinhdaidien'=>'required',
+            'file'=>'required',
     	],[
     		'tieude.min'=>'Tiêu đề phải có ít nhất 3 kí tự.',
     		'tieude.required'=>'Tiêu đề chưa nhập.',
@@ -52,7 +52,7 @@ class tinController extends Controller
 
     	$tin=new tin;
     	$tin->tieude=$request->tieude;
-        $tin->loaitinseo=str_slug($request->tieude);
+        $tin->tieudeseo=str_slug($request->tieude);
     	$tin->id_loaitin=$request->loaitin;
     	$tin->tacgia=$request->tacgia;
     	$tin->mota=$request->mota;
