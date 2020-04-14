@@ -19,7 +19,7 @@ class binhluanController extends Controller
     public function getsua($id_binhluan){
     	$binhluan=binhluan::find($id_binhluan);
     	$binhluan->trangthai=1;
-    	echo $user_login = Auth::user();
+    	$user_login = Auth::user();
     	$binhluan->id_admin=$user_login->id;
     	$binhluan->save();
     	return redirect('admin/binhluan/danhsach.html');

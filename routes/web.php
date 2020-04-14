@@ -17,9 +17,9 @@ Route::get('/', function () {
 
 Route::get('admin/login.html','UserController@getlogin')->name('login');
 Route::post('admin/login.html','UserController@postlogin');
-Route::get('admin/logout.html','UserController@getlogout');
+Route::get('admin/logout.html','UserController@getlogout')->middleware('login');
 
-Route::group(['prefix'=>'admin'],function(){
+Route::group(['prefix'=>'admin','middleware'=>'login'],function(){
 
   Route::group(['prefix'=>'nhomtin'],function(){
 
