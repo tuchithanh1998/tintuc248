@@ -15,14 +15,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-  /*  public function __construct()
-    {
-    //	$user_login	=	Auth::user();  View::share('user_login',$user_login );
-
-  		 $user_login = Auth::user();
-    	//var_dump($user_login);
-    	  View::share('user_login',$user_login );
-    }*/
 
 
 	
@@ -40,11 +32,14 @@ class Controller extends BaseController
 
    		
 
-   		if(Auth::check())
+   		if(Auth::check())//luôn luôn false ?????
    		{
    			
     	$user_login = Auth::user();
     	 View::share('user_login',$user_login);
+   		}else
+   		{
+   			 View::share('user_login','00000');
    		}
    }
 }
