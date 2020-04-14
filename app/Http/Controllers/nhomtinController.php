@@ -43,6 +43,7 @@ class nhomtinController extends Controller
  
         $nhomtin=new  nhomtin;
         $nhomtin->ten_nhomtin=$request->ten;
+             $nhomtin->nhomtinseo = str_slug($request->ten);
         $nhomtin->save();
 
         return redirect('admin/nhomtin/them.html')->with('thongbao','Thêm thành công.');
@@ -76,6 +77,7 @@ class nhomtinController extends Controller
 
        
         $nhomtin->ten_nhomtin=$request->ten;
+        $nhomtin->nhomtinseo = str_slug($request->ten);
         $nhomtin->trangthai=$request->radios;
       
        $nhomtin->save();

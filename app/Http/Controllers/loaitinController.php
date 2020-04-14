@@ -38,7 +38,9 @@ class loaitinController extends Controller
  
         $loaitin=new  loaitin;
         $loaitin->id_loaitin=$request->id;
+         $loaitin->loaitinseo=str_slug($request->ten);
         $loaitin->ten_loaitin=$request->ten;
+
         $loaitin->id_nhomtin=$request->nhomtin;
         $loaitin->save();
 
@@ -80,6 +82,7 @@ class loaitinController extends Controller
         $loaitin->ten_loaitin=$request->ten;
         $loaitin->id_nhomtin=$request->nhomtin;
         $loaitin->trangthai=$request->radios;
+            $loaitin->loaitinseo=str_slug($request->ten);
         $loaitin->save();
          return redirect('admin/loaitin/sua-'.$id_loaitin.'.html')->with('thongbao','Sửa thành công.');
 

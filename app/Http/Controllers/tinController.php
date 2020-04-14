@@ -8,6 +8,7 @@ use App\nhomtin;
 use App\loaitin;
 use Illuminate\Support\Str;
 
+
 class tinController extends Controller
 {
    public function getdanhsach(){
@@ -51,6 +52,7 @@ class tinController extends Controller
 
     	$tin=new tin;
     	$tin->tieude=$request->tieude;
+        $tin->loaitinseo=str_slug($request->tieude);
     	$tin->id_loaitin=$request->loaitin;
     	$tin->tacgia=$request->tacgia;
     	$tin->mota=$request->mota;
@@ -126,6 +128,7 @@ public function postsua(Request $request,$id_tin){
         ]);
 
         $tin->tieude=$request->tieude;
+         $tin->loaitinseo=str_slug($request->tieude);
         $tin->id_loaitin=$request->loaitin;
         $tin->tacgia=$request->tacgia;
         $tin->mota=$request->mota;
