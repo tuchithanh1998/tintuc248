@@ -80,8 +80,20 @@ class tinController extends Controller
 
     public function getxoa($id_tin){
          $tin=tin::find($id_tin);
-         $tin->delete();
-         return redirect('admin/tin/danhsach.html')->with('thongbao','Xóa thành công.');
+        // echo $tin->binhluan;
+        if($tin->binhluan==null)
+        { $tin->delete();
+
+         if (file_exists('upload/tintuc/'. $tin->hinhdaidien))
+            {
+                 unlink("upload/tintuc/".$tin->hinhdaidien);
+            }
+
+         return redirect('admin/tin/danhsach.html')->with('thongbao','Xóa thành công.');}
+         else
+         {
+             return redirect('admin/tin/danhsach.html')->with('thongbao','Xóa thất bại tồn tại bình luận.');
+         }
     }
 
 
@@ -128,7 +140,7 @@ public function postsua(Request $request,$id_tin){
         ]);
 
         $tin->tieude=$request->tieude;
-         $tin->loaitinseo=str_slug($request->tieude);
+         $tin->tieudeseo=str_slug($request->tieude);
         $tin->id_loaitin=$request->loaitin;
         $tin->tacgia=$request->tacgia;
         $tin->mota=$request->mota;
