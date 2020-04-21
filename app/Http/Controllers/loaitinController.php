@@ -19,19 +19,20 @@ class loaitinController extends Controller
     public function postthem(Request $request){
        $this->validate($request,
             [
-                'ten'=>'required|min:3|max:100|unique:loaitin,ten_loaitin',
-                'id'=>'required|min:1|max:5|unique:loaitin,id_loaitin|regex:/[a-zA-Z0-9]$/'
+                'ten'=>'required|min:3|max:100|unique:loaitin,ten_loaitin|regex:/[a-zA-Z]+/',
+                'id'=>'required|min:1|max:5|unique:loaitin,id_loaitin|regex:/^[a-zA-Z0-9]+$/'
             ],
             [   
                 'ten.unique'=>'Đã tồn tại tên loại tin.',
                 'ten.required'=>'Bạn chưa nhập tên loại tin.',
                 'ten.min'=>'Tên loại tin phải có độ dài từ 3 cho đến 100 ký tự.',
                 'ten.max'=>'Tên loại tin phải có độ dài từ 3 cho đến 100 ký tự.',
-                'id.unique'=>'Đã tồn tại mã loại tin.',
-                'id.required'=>'Bạn chưa nhập mã loại tin.',
-                'id.min'=>'Mã loại tin phải có độ dài từ 1 cho đến 5 ký tự.',
-                'id.max'=>'Mã loại tin phải có độ dài từ 1 cho đến 5 ký tự.',
-                'id.regex'=>'Mã loại tin a-zA-Z0-9'
+                'ten.regex'=>'Phải chứa a-zA-Z.',
+                'id.unique'=>'Đã tồn tại id loại tin.',
+                'id.required'=>'Bạn chưa nhập id loại tin.',
+                'id.min'=>'ID loại tin phải có độ dài từ 1 cho đến 5 ký tự.',
+                'id.max'=>'ID loại tin phải có độ dài từ 1 cho đến 5 ký tự.',
+                'id.regex'=>'ID loại tin a-zA-Z0-9'
             ]
 
         );
@@ -51,6 +52,9 @@ class loaitinController extends Controller
     public function getsua($id_loaitin){
       
         $loaitin=loaitin::find($id_loaitin);
+        if($loaitin==null)
+          return redirect('admin/loaitin/danhsach.html')->with('thongbao','Không tồn tại loại tin.');
+        
         $nhomtin=nhomtin::all();
       
         return view('admin.loaitin.sua',['loaitin'=>$loaitin,'nhomtin'=>$nhomtin]);
@@ -64,11 +68,12 @@ class loaitinController extends Controller
           $this->validate($request,
             [
 
-                
-             'ten'=>'required|min:3|max:100|unique:loaitin,ten_loaitin,'.$id_loaitin.',id_loaitin'
+            
+             'ten'=>'required|min:3|max:100|unique:loaitin,ten_loaitin,'.$id_loaitin.',id_loaitin|regex:/[a-zA-Z]+/'
                 
             ],
             [   
+                'ten.regex'=>'Phải chứa a-zA-Z.',
                 'ten.unique'=>'Đã tồn tại tên loại tin.',
                 'ten.required'=>'Bạn chưa nhập tên loại tin.',
                 'ten.min'=>'Tên loại tin phải có độ dài từ 3 cho đến 100 ký tự.',
@@ -91,8 +96,17 @@ class loaitinController extends Controller
 
     public function getxoa($id_loaitin){
          $loaitin=loaitin::find($id_loaitin);
+
+          if(count($loaitin->tin)==0)
+           {
          $loaitin->delete();
          return redirect('admin/loaitin/danhsach.html')->with('thongbao','Xóa thành công.');
+            }
+            else
+            {
+                  return redirect('admin/loaitin/danhsach.html')->with('thongbao','Xóa không thành công.'); 
+            }
+
     }
 
 }

@@ -24,15 +24,15 @@ class UserController extends Controller
     public function postlogin(Request $request){
        $this->validate($request,
             [
-                'tentaikhoan'=>'required|min:3|max:100|regex:/[a-zA-Z0-9]$/',
-                'matkhau'=>'required|min:3|max:100|regex:/[a-zA-Z0-9]$/'
+                'tentaikhoan'=>'required|min:3|max:100|email|regex:/^[a-zA-Z0-9@.\s]+$/',
+                'matkhau'=>'required|min:3|max:100|regex:/^[a-zA-Z0-9\s]+$/'
             ],
             [   
                 'tentaikhoan.required'=>'Chưa điền tài khoảng.',
                 'tentaikhoan.min'=>'Sai tài khoản.',
                 'tentaikhoan.max'=>'Sai tài khoản.',
-                'tentaikhoan.regex'=>'Gồm a-zA-Z0-9.',
-
+                'tentaikhoan.email'=>'Không đúng định dạng email.',
+                'tentaikhoan.regex'=>'Có chứa các kí tự đặc biệt không cho phép.',
                 'matkhau.required'=>'Chưa điền mật khẩu.',
                 'matkhau.min'=>'Sai mật khẩu.',
                 'matkhau.max'=>'Sai mật khẩu.',

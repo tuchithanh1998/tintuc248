@@ -26,26 +26,33 @@ class tinController extends Controller
     {
     	
     	$this->validate($request,[
-    		'tieude'=>'required|min:3|unique:tin,tieude',
+    		'tieude'=>'required|min:3|max:255|unique:tin,tieude|regex:/[a-zA-Z]+/',
     		'loaitin'=>'required',
-    		'tacgia'=>'required|min:3',
-    		'mota'=>'required',
+    		'tacgia'=>'required|min:3|max:50|regex:/[a-zA-Z]+/',
+    		'mota'=>'required|regex:/[a-zA-Z]+/',
     		'tinhot'=>'required',
-    		'noidung'=>'required',
+    		'noidung'=>'required|regex:/[a-zA-Z0-9]+/',
             'file'=>'required',
     	],[
     		'tieude.min'=>'Tiêu đề phải có ít nhất 3 kí tự.',
+            'tieude.max'=>'Tiêu đề tối đa 255 kí tự.',
     		'tieude.required'=>'Tiêu đề chưa nhập.',
     		'tieude.unique'=>'Đã tồn tại.',
+            'tieude.regex'=>'Phải có ký tự a-zA-Z.',
 
     		'loaitin.required'=>'Chưa chọn loại tin.',
 
     		'tacgia.min'=>'Tên tác giả phải có ít nhất 3 kí tự.',
+            'tacgia.max'=>'Tên tác giả tối đa 50 kí tự.',
+            'tacgia.regex'=>'Phải có ký tự a-zA-Z.',
+            'tacgia.required'=>'Tên tác giả phải có ít nhất 3 kí tự.',
 
-    	'tacgia.required'=>'Tên tác giả phải có ít nhất 3 kí tự.',
-    	'mota.required'=>'Mô tả không được để trống.',
-    	'tinhot.required'=>'Chọn tin hot hay bình thường.',
-    	'noidung.required'=>'Nội dung không được để trống.'
+    	    'mota.required'=>'Mô tả không được để trống.',
+
+         	'tinhot.required'=>'Chọn tin hot hay bình thường.',
+
+        	'noidung.required'=>'Nội dung không được để trống.',
+            'noidung.regex'=>'Phải có ký tự a-zA-Z0-9.',
 
 
     	]);
@@ -80,16 +87,20 @@ class tinController extends Controller
 
     public function getxoa($id_tin){
          $tin=tin::find($id_tin);
+         if($tin==null)
+          return redirect('admin/tin/danhsach.html')->with('thongbao','Không tồn tại tin.');
         // echo $tin->binhluan;
-        if($tin->binhluan==null)
-        { $tin->delete();
+        if(count($tin->binhluan)==0)
+        {
+         $tin->delete();
 
-         if (file_exists('upload/tintuc/'. $tin->hinhdaidien))
-            {
-                 unlink("upload/tintuc/".$tin->hinhdaidien);
-            }
+             if (file_exists('upload/tintuc/'. $tin->hinhdaidien))
+              {
+                  unlink("upload/tintuc/".$tin->hinhdaidien);
+              }
 
-         return redirect('admin/tin/danhsach.html')->with('thongbao','Xóa thành công.');}
+          return redirect('admin/tin/danhsach.html')->with('thongbao','Xóa thành công.');
+      }
          else
          {
              return redirect('admin/tin/danhsach.html')->with('thongbao','Xóa thất bại tồn tại bình luận.');
@@ -99,7 +110,14 @@ class tinController extends Controller
 
      public function getsua($id_tin){
 
+
+
+
+
   	   $tin=tin::find($id_tin);
+
+        if($tin==null)
+          return redirect('admin/tin/danhsach.html')->with('thongbao','Không tồn tại tin.');
 	   $loaitin=loaitin::find($tin->id_loaitin);
 	   $idloaitin=$loaitin->id_loaitin;
        $nhomtin=nhomtin::find($loaitin->id_nhomtin);
@@ -116,25 +134,40 @@ public function postsua(Request $request,$id_tin){
             $tin=tin::find($id_tin);
         
         $this->validate($request,[
-            'tieude'=>'required|min:3|max:200|unique:tin,tieude,'.$id_tin.',id_tin',
+            'tieude'=>'required|min:3|max:255|unique:tin,tieude,'.$id_tin.',id_tin|regex:/[a-zA-Z]+/',
             'loaitin'=>'required',
-            'tacgia'=>'required|min:3',
-            'mota'=>'required',
+            'tacgia'=>'required|min:3|max:50|regex:/[a-zA-Z]+/',
+            'mota'=>'required|regex:/[a-zA-Z]+/|min:3|max:255|',
             'tinhot'=>'required',
-            'noidung'=>'required'
+            'noidung'=>'required|regex:/[a-zA-Z0-9]+/'
         ],[
             'tieude.min'=>'Tiêu đề phải có ít nhất 3 kí tự.',
+            'tieude.max'=>'Tiêu đề phải có ít nhất 3 kí tự.',
             'tieude.required'=>'Tiêu đề chưa nhập.',
             'tieude.unique'=>'Tiêu đề đã tồn tại.',
+             'tieude.regex'=>'Tên tác giả tối phải có a-zA-Z',
 
             'loaitin.required'=>'Chưa chọn loại tin.',
 
-            'tacgia.min'=>'Tên tác giả phải có ít nhất 3 kí tự.',
+       
+
 
         'tacgia.required'=>'Tên tác giả phải có ít nhất 3 kí tự.',
+        'tacgia.min'=>'Tên tác giả phải có ít nhất 3 kí tự.',
+        'tacgia.max'=>'Tên tác giả tối đa có 50 kí tự.',
+        'tacgia.regex'=>'Tên tác giả tối phải có a-zA-Z',
+
+
         'mota.required'=>'Mô tả không được để trống.',
+        'mota.min'=>'Mô tả tối thiểu có 3 kí tự.',
+        'mota.max'=>'Mô tả tối đa có 50 kí tự.',
+        'mota.required'=>'Mô tả không được để trống.',
+
         'tinhot.required'=>'Chọn tin hot hay bình thường.',
-        'noidung.required'=>'Nội dung không được để trống.'
+
+        'noidung.required'=>'Nội dung không được để trống.',
+         'noidung.regex'=>'Nội dung a-zA-Z0-9.',
+
 
 
         ]);

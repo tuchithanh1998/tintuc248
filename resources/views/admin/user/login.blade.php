@@ -20,7 +20,7 @@
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" name="tentaikhoan" placeholder="Username" />
+                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" id="tentaikhoan" name="tentaikhoan" placeholder="@gmail" />
                         </div>
                     </div>
                 </div>
@@ -72,6 +72,57 @@
         
         <script src="admin_asset/js/jquery.min.js"></script>  
         <script src="admin_asset/js/matrix.login.js"></script> 
+
+         <script language="javascript">
+/*
+            if(localStorage)
+            {
+                document.getElementById('tentaikhoan').innerHTML=localStorage.tentaikhoan;
+                document.getElementById('checkbox').checked;
+            }
+
+
+            document.getElementById('checkbox').onclick = function(e){
+               if (typeof(Storage) !== 'undefined') {
+
+                 if (this.checked){
+                    localStorage.setItem('tentaikhoan',document.getElementById('tentaikhoan').value);
+                     document.getElementById('checkbox').checked;
+                //    localStorage.setItem('checkbox',document.getElementById('checkbox').value);
+                }
+                else{
+                //  localStorage.clear();
+                }
+    //Nếu có hỗ trợ
+    //Thực hiện thao tác với Storage
+    //alert('Trình duyệt của bạn hỗ trợ Storage');
+} else {
+    //Nếu không hỗ trợ
+    alert('Trình duyệt của bạn không hỗ trợ Storage');
+}
+            };
+
+            document.getElementById('tentaikhoan').onchange=function(e){
+                    if(document.getElementById('checkbox').checked)
+                            localStorage.setItem('tentaikhoan',document.getElementById('tentaikhoan').value);           
+            };
+
+
+         */
+
+window.onload = function()
+{// localStorage.setItem('ta','xcxcxc');
+    document.getElementById('tentaikhoan').value=localStorage.getItem("taikhoan");
+  //  if(localStorage.taikhoan)
+ // document.getElementById("tentaikhoan").innerHTML = localStorage.getItem("taikhoan");
+};
+
+            document.getElementById('tentaikhoan').onchange=function(){
+                localStorage.setItem("taikhoan", document.getElementById('tentaikhoan').value);
+
+            }
+            
+        </script>
     </body>
 
 </html>
